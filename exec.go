@@ -8,6 +8,8 @@ import (
 
 	"fmt"
 
+	"encoding/json"
+
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
 	"github.com/puppetlabs/transparent-containers/cli/logging"
@@ -20,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	cmd := strings.Split(string("ls -lisa"), " ")
+	cmd := strings.Split(string("ls -1 /bin"), " ")
 
 	execOpts := types.ExecConfig{
 		Cmd:          cmd,
@@ -47,5 +49,10 @@ func main() {
 	for i, line := range data {
 		fmt.Printf("%d: %s\n", i, line)
 	}
+
+	fmt.Println("")
+	fmt.Println("Marshalled Data")
+	marshalledData, _ := json.Marshal(data)
+	fmt.Println(string(marshalledData))
 
 }
